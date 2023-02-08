@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="PT-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer>
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>Task Organizer</h1>
+      <p>Making your life easier</p>
+      <hr>
+    </header>
+    <main id="assignment">
+      <section >
+        <div class="day">
+          <h2>Calendar</h2>
+          
+          <p class="date">{{dateToday}}</p>
+          <span class="date"> - </span>
+          <p class="date">{{dayOfWeek}}</p>
+
+          <div class="button-box">
+            <p>Start or pause your tasks here.</p>
+            <button @click="startTask" :disabled="currentTaskIsNull"
+            :class="{disable: currentTaskIsNull}">
+              Start
+            </button>
+            <button @click="stopTask" :disabled="!currentTaskIsNull"
+            :class="{disable: !currentTaskIsNull}">
+              Stop
+            </button>
+          </div>
+
+        </div>
+
+        <div class="cards-content" v-if="currentTaskIsNull">
+          <h2>Task in progress....</h2>
+          <ul>
+            <li class="card-task">
+              <p class="description">Description:</p>
+              <input type="text" maxlength="120" v-model="currentTask.inputBox">
+              <img @click="submitContent" src="img/accept.png">
+              <p class="resume">{{currentTask.description}}</p>
+              <div class="time">
+                <p class="time-start">Start: <span>{{currentTask.timeStart}}</span></p>
+                <button class="btn-done" @click="donetask">Done</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div v-else class="cards-content"></div>
+
+        <div class="cards-content" v-if="containDoneTasks">
+          <h2>Done Tasks</h2>
+          <ul>
+            <li class="card-task-done" v-for="task in taskDone" key="task.id">
+              <p class="description">Description:</p>
+              <input type="text" maxlength="120" v-model="task.inputBox">
+              <img @click="editContent(task)" src="img/accept.png">
+              <p class="resume">{{task.description}}</p>
+              <div class="time">
+                <p class="time-start">Start: <span>{{task.timeStart}}</span></p>
+                <p class="time-end">End: <span>{{task.timeEnd}}</span></p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>  
+    </main>
+  </body>
+</html>
+<!-- .color1 { #1c0b2b };
+.color2 { #301c41 };
+.color3 { #413b6b };
+.color4 { #5c65c0 };
+.color5 { #6f95ff }; -->
